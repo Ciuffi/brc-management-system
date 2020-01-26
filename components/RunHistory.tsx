@@ -32,7 +32,7 @@ const RunHistory = () => {
                 RunFinished,
                 CreatedTime,
                 RunFinishedTime
-              }) => {
+              }) => (
                 <div
                   className={`message ${RunFinished ? "is-success" : ""} ${
                     !RunFinished && !Error ? "is-warning" : ""
@@ -63,8 +63,8 @@ const RunHistory = () => {
                         : "unfinished"}
                     </p>
                   </div>
-                </div>;
-              }
+                </div>
+              )
             )}
           </div>
         ) : (
