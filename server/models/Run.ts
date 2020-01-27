@@ -4,12 +4,12 @@ interface Run {
   RunName: string;
   _id?: number;
   //Pipeline stage information
-  RunFinished: boolean;
+  RunFinished?: boolean;
   AnalysisFinished?: boolean;
   Error: boolean;
   //stats information
   CreatedTime: string;
-  AnalysisStartTime: string;
+  AnalysisStartTime?: string;
   RunFinishedTime?: string;
   AnalysisFinishedTime?: string;
   //File locations
