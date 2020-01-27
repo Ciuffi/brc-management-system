@@ -1,15 +1,12 @@
 import React from "react";
 import Run from "../server/models/Run";
 import RunCard from "./RunCard";
-const RunHistory = () => {
-  const runs: Run[] = [
-    {
-      LabName: "fabio",
-      Error: false,
-      RunName: "randomRun",
-      CreatedTime: "2020-01-27T01:13:42.898Z"
-    }
-  ];
+
+interface RunHistoryProps {
+  runs: Run[];
+}
+
+const RunHistory = ({ runs }: RunHistoryProps) => {
   return (
     <div>
       <div
@@ -34,8 +31,8 @@ const RunHistory = () => {
       </div>
 
       <style jsx>{`
-        .cards > * {
-          margin: 4% auto;
+        .history {
+          margin: auto;
         }
       `}</style>
     </div>

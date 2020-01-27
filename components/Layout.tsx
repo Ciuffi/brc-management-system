@@ -4,7 +4,7 @@ import "../styles/styles.sass";
 import { ReactChild } from "react";
 
 interface LayoutProps {
-  children: ReactChild;
+  children: ReactChild[];
 }
 
 export default ({ children }: LayoutProps) => {

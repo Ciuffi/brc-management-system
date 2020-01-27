@@ -24,7 +24,7 @@ const RunCard = ({
     </div>
     <div style={{ textAlign: "left" }} className="message-body">
       <p>
-        <b>Started on:</b> {new Date(CreatedTime).toISOString()}
+        <b>Started on:</b> {CreatedTime}
       </p>
       <p>
         <b>Run finished at: </b>{" "}
