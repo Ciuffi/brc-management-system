@@ -1,18 +1,22 @@
 import React, { useState, FormEvent } from "react";
 import fetch from "isomorphic-unfetch";
 const RunInput = () => {
-  const response = "error";
   const [runName, setRunName] = useState("");
-
-  const submit = (event: FormEvent) => {
+  const [error, setError] = useState(false);
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (runName === "") {
       return;
     }
-    fetch("/api/newrun", {
+    const resp = await fetch("/api/newrun", {
       method: "POST",
       body: JSON.stringify({ RunName: runName })
-    }).then(resp => console.log(resp.status));
+    });
+    if (resp.status === 200) {
+      window.location.reload();
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -44,12 +48,10 @@ const RunInput = () => {
           <input className="button is-success" type="submit" value="submit" />
         </form>
       </div>
-      {!!response && (
+      {error && (
         <div style={{ margin: "1% auto" }}>
-          <p style={{ color: response === "error" ? "red" : "green" }}>
-            {response === "error"
-              ? "There was an error setting the current run."
-              : "Current run set successfully!"}
+          <p style={{ color: "red" }}>
+            There was an error setting the current run.
           </p>
         </div>
       )}

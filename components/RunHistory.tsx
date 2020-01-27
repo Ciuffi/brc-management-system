@@ -19,7 +19,11 @@ const RunHistory = ({ runs }: RunHistoryProps) => {
             className="has-text-white card-header-title"
           >
             <p style={{ float: "left" }}>Run History</p>
-            <button style={{ float: "right" }} className="button is-info">
+            <button
+              onClick={() => window.location.reload()}
+              style={{ float: "right" }}
+              className="button is-info"
+            >
               Reload
             </button>
           </div>
