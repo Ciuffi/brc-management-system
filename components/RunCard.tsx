@@ -20,22 +20,22 @@ const RunCard = ({
   >
     <div className="message-header">
       Name: {RunName}
-      {Error ? <p>processed: {RunFinished ? "yes" : "no"}</p> : <p> Error!</p>}
+      {!Error ? <p>processed: {RunFinished ? "yes" : "no"}</p> : <p> Error!</p>}
     </div>
     <div style={{ textAlign: "left" }} className="message-body">
       <p>
-        <b>Started on:</b> {CreatedTime}
+        <b>Started on:</b> {new Date(CreatedTime).toUTCString()}
       </p>
       <p>
         <b>Run finished at: </b>{" "}
         {RunFinishedTime
-          ? new Date(RunFinishedTime).toISOString()
+          ? new Date(RunFinishedTime).toUTCString()
           : "unfinished"}
       </p>
       <p>
         <b>Pipeline started on: </b>{" "}
         {AnalysisStartTime
-          ? new Date(AnalysisStartTime).toISOString()
+          ? new Date(AnalysisStartTime).toUTCString()
           : "unfinished"}
       </p>
     </div>

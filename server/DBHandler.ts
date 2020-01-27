@@ -23,7 +23,7 @@ class dbHandler {
   GetRunHistory = async (): Promise<Run[]> => {
     return await this.collection
       .find({})
-      .sort({ _id: 1 })
+      .sort({ _id: -1 })
       .toArray();
   };
 
@@ -45,7 +45,7 @@ class dbHandler {
   GetLatestRun = async (): Promise<Run> => {
     return this.collection
       .find({})
-      .sort({ _id: 1 })
+      .sort({ _id: -1 })
       .limit(1)
       .next();
   };

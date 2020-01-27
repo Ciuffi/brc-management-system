@@ -1,8 +1,20 @@
-import React, { useState } from "react";
-
+import React, { useState, FormEvent } from "react";
+import fetch from "isomorphic-unfetch";
 const RunInput = () => {
   const response = "error";
   const [runName, setRunName] = useState("");
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+    if (runName === "") {
+      return;
+    }
+    fetch("/api/newrun", {
+      method: "POST",
+      body: JSON.stringify({ RunName: runName })
+    }).then(resp => console.log(resp.status));
+  };
+
   return (
     <div
       className="card"
@@ -16,7 +28,8 @@ const RunInput = () => {
       </div>
       <div className="card-footer">
         <form
-          style={{ display: "flex", margin: "2% auto;" }}
+          onSubmit={submit}
+          style={{ display: "flex", margin: "2% auto" }}
           action="/"
           method="post"
         >
