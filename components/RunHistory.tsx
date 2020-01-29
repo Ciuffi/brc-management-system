@@ -9,10 +9,7 @@ interface RunHistoryProps {
 const RunHistory = ({ runs }: RunHistoryProps) => {
   return (
     <div>
-      <div
-        className="history card"
-        style={{ textAlign: "center", width: "80vw" }}
-      >
+      <div className="history card" style={{ textAlign: "center" }}>
         <div className="card-header has-background-grey">
           <div
             style={{ width: "100%", display: "inline" }}
@@ -29,8 +26,11 @@ const RunHistory = ({ runs }: RunHistoryProps) => {
           </div>
         </div>
         <div className="card-content">
-          {!!runs.length &&
-            runs.map(run => <RunCard run={run} key={run._id} />)}
+          {!!runs.length ? (
+            runs.map(run => <RunCard run={run} key={run._id} />)
+          ) : (
+            <h1>Currently No Runs </h1>
+          )}
         </div>
       </div>
 
