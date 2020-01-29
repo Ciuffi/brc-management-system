@@ -10,7 +10,7 @@ const dbhandler = new DBHandler();
 app
   .prepare()
   .then(dbhandler.initialize)
-  .then(Watcher)
+  .then(() => Watcher(dbhandler.setWatcherStatus))
   .then(() => {
     const server = express();
 

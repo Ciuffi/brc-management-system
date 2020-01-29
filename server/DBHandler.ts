@@ -18,6 +18,24 @@ class dbHandler {
     await client.connect();
     this.db = client.db(DB_NAME);
     this.collection = this.db.collection(COLLECTION_NAME);
+    await this.setWatcherStatus(true);
+  };
+
+  setWatcherStatus = async (on: boolean): Promise<void> => {
+    await this.db.collection("status").updateOne(
+      { _id: "watcher" },
+      { $set: { _id: "watcher", on } },
+      {
+        upsert: true
+      }
+    );
+  };
+
+  getWatcherStatus = async (): Promise<boolean> => {
+    const status = await this.db
+      .collection("status")
+      .findOne({ _id: "watcher" });
+    return status.on;
   };
 
   GetRunHistory = async (): Promise<Run[]> => {
