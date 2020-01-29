@@ -20,16 +20,28 @@ export default ({ children }: LayoutProps) => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "100vh", position: "relative" }}>
       <Head>
         <title>BRC Database</title>
       </Head>
-      {children}
-      <footer className="footer">
-        <div className="content has-text-centered">
-          <span>I'm the footer</span>
-        </div>
+      <div style={{ paddingBottom: "30vh", height: "100%" }}> {children}</div>
+      <footer className="footer has-text-centered-mobile">
+        <span>Created by Giulio Rossi</span>
+        <br></br>
+        <span>
+          If you need assistance in any way, please contact me @{" "}
+          <a href="mailto:ciuffi9@mac.com">ciuffi9@mac.com</a>
+        </span>
       </footer>
+      <style jsx>{`
+        footer {
+          position: absolute;
+          bottom: 0;
+          background-color: lightgrey;
+          padding: 1rem 1.5rem 2rem;
+          width: 100vw;
+        }
+      `}</style>
     </div>
   );
 };
