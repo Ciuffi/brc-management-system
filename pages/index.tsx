@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import RunHistory from "../components/RunHistory";
-import dbHandler from "../server/DBHandler";
+import DBHandler from "../server/DBHandler";
 import Run from "../server/models/Run";
 import RunInput from "../components/RunInput";
 import RunStats from "../components/RunStats";
@@ -75,7 +75,7 @@ const Home = ({ runHistory, stats, watcherStatus }: HomeProps) => (
 );
 
 Home.getInitialProps = async ({ req }) => {
-  const dbHandler = (req as any).db as dbHandler;
+  const dbHandler = (req as any).db as DBHandler;
   const runHistory = await dbHandler.GetRunHistory();
   const stats = await dbHandler.GetLatestRun();
   const watcherStatus = await dbHandler.getWatcherStatus();
