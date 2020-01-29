@@ -10,7 +10,9 @@ const RunCard = ({
     Error,
     RunFinished,
     CreatedTime,
-    RunFinishedTime
+    RunFinishedTime,
+    BCLFilePaths,
+    BCLFolderPath
   }
 }: RunCardProps) => (
   <div
@@ -24,21 +26,37 @@ const RunCard = ({
     </div>
     <div style={{ textAlign: "left" }} className="message-body">
       <p>
-        <b>Started on:</b> {new Date(CreatedTime).toUTCString()}
+        <b>Started on:</b> {new Date(CreatedTime).toLocaleString("en-US")}
       </p>
       <p>
         <b>Run finished at: </b>{" "}
         {RunFinishedTime
-          ? new Date(RunFinishedTime).toUTCString()
+          ? new Date(RunFinishedTime).toLocaleString("en-US")
           : "unfinished"}
       </p>
       <p>
         <b>Pipeline started on: </b>{" "}
         {AnalysisStartTime
-          ? new Date(AnalysisStartTime).toUTCString()
+          ? new Date(AnalysisStartTime).toLocaleString("en-US")
           : "unfinished"}
       </p>
+      {BCLFolderPath ? (
+        <div>
+          <b>BCL locations: [</b>
+          {BCLFilePaths.map(path => (
+            <p key={path} className="bclPath">
+              - {path}
+            </p>
+          ))}
+          <b>]</b>
+        </div>
+      ) : null}
     </div>
+    <style jsx>{`
+      .bclPath {
+        margin-left: 2%;
+      }
+    `}</style>
   </div>
 );
 
