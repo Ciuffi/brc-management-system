@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Run from "../server/models/Run";
 import RunCard from "./RunCard";
+import fetch from "isomorphic-unfetch";
 
 interface RunHistoryProps {
   runs: Run[];
 }
 
 const RunHistory = ({ runs }: RunHistoryProps) => {
+  const [properRuns, setRuns] = useState(runs);
+
+  const reload = async () => {
+    const res = await fetch("/api/runhistory");
+    const json = await res.json();
+    setRuns(json as Run[]);
+  };
+
   return (
     <div>
       <div className="history card" style={{ textAlign: "center" }}>
@@ -17,7 +26,7 @@ const RunHistory = ({ runs }: RunHistoryProps) => {
           >
             <p style={{ float: "left" }}>Run History</p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={reload}
               style={{ float: "right" }}
               className="button is-info"
             >
@@ -26,8 +35,8 @@ const RunHistory = ({ runs }: RunHistoryProps) => {
           </div>
         </div>
         <div className="card-content">
-          {!!runs.length ? (
-            runs.map(run => <RunCard run={run} key={run._id} />)
+          {!!properRuns.length ? (
+            properRuns.map(run => <RunCard run={run} key={run._id} />)
           ) : (
             <h1>Currently No Runs </h1>
           )}
