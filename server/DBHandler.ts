@@ -68,11 +68,22 @@ class dbHandler {
       .next();
   };
 
+  updateArray = async (id: number, array: string, element: string) => {
+    return this.collection.updateOne(
+      { _id: id },
+      {
+        $push: {
+          [array]: element
+        }
+      }
+    );
+  };
+
   updateRun = async (
     id: number,
-    updates: any
+    updates: Run
   ): Promise<UpdateWriteOpResult> => {
-    return this.collection.updateOne({ _id: id }, updates);
+    return this.collection.updateOne({ _id: id }, { $set: updates });
   };
 }
 export default dbHandler;
