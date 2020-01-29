@@ -20,10 +20,7 @@ const RunInput = () => {
   };
 
   return (
-    <div
-      className="card"
-      style={{ textAlign: "center", width: "30vw", margin: "4% auto" }}
-    >
+    <div className="card" style={{ textAlign: "center", height: "100%" }}>
       <div className="card-header has-background-grey">
         <div className="has-text-white card-header-title">Set a new run</div>
       </div>
@@ -33,9 +30,10 @@ const RunInput = () => {
       <div className="card-footer">
         <form
           onSubmit={submit}
-          style={{ display: "flex", margin: "2% auto" }}
+          style={{ margin: "2% auto" }}
           action="/"
           method="post"
+          className="is-flex-tablet"
         >
           <input
             className="input is-success"
@@ -43,6 +41,7 @@ const RunInput = () => {
             onChange={({ target: { value } }) => setRunName(value)}
             name="fileName"
             placeholder="run name"
+            style={{ maxWidth: "80%" }}
             value={runName}
           />
           <input className="button is-success" type="submit" value="submit" />

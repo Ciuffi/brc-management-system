@@ -2,10 +2,7 @@ import Run from "../server/models/Run";
 
 const RunStats = ({ RunName, Error, RunFinished }: Run) => {
   return (
-    <div
-      className="card"
-      style={{ textAlign: "center", width: "30vw", margin: "4% auto" }}
-    >
+    <div className="card" style={{ textAlign: "center", height: "100%" }}>
       <div className="card-header has-background-grey">
         <div className="has-text-white card-header-title">
           Current Run Statistics
