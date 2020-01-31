@@ -63,5 +63,4 @@ export default async (dbHandler: dbHandler): Promise<void> => {
     return;
   });
   watcher.on("add", onChange);
-  watcher.on("change", onChange);
 };
