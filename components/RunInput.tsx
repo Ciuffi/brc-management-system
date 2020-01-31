@@ -8,7 +8,7 @@ const RunInput = () => {
     if (runName === "") {
       return;
     }
-    const resp = await fetch("/api/newrun", {
+    const resp = await fetch("/bms/api/newrun", {
       method: "POST",
       body: JSON.stringify({ RunName: runName })
     });

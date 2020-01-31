@@ -11,7 +11,7 @@ const RunHistory = ({ runs }: RunHistoryProps) => {
   const [properRuns, setRuns] = useState(runs);
 
   const reload = async () => {
-    const res = await fetch("/api/runhistory");
+    const res = await fetch("/bms/api/runhistory");
     const json = await res.json();
     setRuns(json as Run[]);
   };
