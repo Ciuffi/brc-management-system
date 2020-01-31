@@ -1,0 +1,28 @@
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+.status {
+  border-radius: 25px;
+  margin: 10px auto;
+  margin-left: 0;
+  margin-bottom: 0;
+  width: 250px;
+  padding: 10px 20px;
+  background-color: white;
+  text-align: center;
+}
+.cards {
+  margin: auto;
+  width: 80%;
+}
+@include until($tablet) {
+  .cards {
+    width: 100%;
+  }
+  .status {
+    margin: auto;
+    margin-top: 20px;
+  }
+}
+.cards > * {
+  min-height: 200px;
+  margin: auto;
+}

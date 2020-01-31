@@ -4,7 +4,7 @@ import DBHandler from "../server/DBHandler";
 import Run from "../server/models/Run";
 import RunInput from "../components/RunInput";
 import RunStats from "../components/RunStats";
-
+import "../styles/index.scss";
 interface HomeProps {
   runHistory: Run[];
   stats: Run;
@@ -40,37 +40,6 @@ const Home = ({ runHistory, stats, watcherStatus }: HomeProps) => (
     <div className="cards column">
       <RunHistory runs={runHistory} />
     </div>
-    <style jsx>
-      {`
-        .status {
-          border-radius: 25px;
-          margin: 10px auto;
-          margin-left: 0;
-          margin-bottom: 0;
-          width: 250px;
-          padding: 10px 20px;
-          background-color: white;
-          text-align: center;
-        }
-        .cards {
-          margin: auto;
-          width: 80%;
-        }
-        @media (width < 769px) {
-          .cards {
-            width: 100%;
-          }
-          .status {
-            margin: auto;
-            margin-top: 20px;
-          }
-        }
-        .cards > * {
-          min-height: 200px;
-          margin: auto;
-        }
-      `}
-    </style>
   </Layout>
 );
 
