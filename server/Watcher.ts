@@ -15,7 +15,7 @@ const createWatcherArray = (
   return extensions.map(ext => basePath + "**/*" + ext);
 };
 
-const toWatch = createWatcherArray("/brcwork/sequence", extensions);
+const toWatch = createWatcherArray("/home/giulio/", extensions);
 
 const greenLog = (str: string) => console.log(greenBright(str));
 
