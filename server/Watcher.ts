@@ -5,7 +5,17 @@ import { greenBright } from "chalk";
 
 const RTAComplete = "RTAComplete";
 const BCL = ".bcl";
-const toWatch = ["/brcwork/sequence"];
+
+const extensions = [RTAComplete, BCL];
+
+const createWatcherArray = (
+  basePath: string,
+  extensions: string[]
+): string[] => {
+  return extensions.map(ext => basePath + "**/*" + ext);
+};
+
+const toWatch = createWatcherArray("/brcwork/sequence", extensions);
 
 const greenLog = (str: string) => console.log(greenBright(str));
 
