@@ -3,7 +3,7 @@ const production = process.env.NODE_ENV === "production";
 module.exports = {
   ...withSass(),
   assetPrefix: production ? "/bms" : "",
-  publicRuntimeConfig: {
+  experimental: {
     basePath: production ? "/bms" : ""
   }
 };
