@@ -3,9 +3,9 @@ import { Stats } from "fs";
 import dbHandler from "./DBHandler";
 import { greenBright } from "chalk";
 
-const RTAComplete = "RTACOMPLETE";
-const BCL = ".BCL";
-const toWatch = ["towatch", "watchthistoo"];
+const RTAComplete = "RTAComplete";
+const BCL = ".bcl";
+const toWatch = ["/brcwork/sequence"];
 
 const greenLog = (str: string) => console.log(greenBright(str));
 
