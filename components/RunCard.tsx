@@ -42,13 +42,7 @@ const RunCard = ({
       </p>
       {BCLFolderPath ? (
         <div>
-          <b>BCL locations: [</b>
-          {BCLFilePaths.map(path => (
-            <p key={path} className="bclPath">
-              - {path}
-            </p>
-          ))}
-          <b>]</b>
+          <b>BCL folder path:</b> {BCLFolderPath}
         </div>
       ) : null}
     </div>
