@@ -6,7 +6,7 @@ import { greenBright } from "chalk";
 const RTAComplete = "RTAComplete";
 const BCL = ".bcl";
 
-const extensions = [RTAComplete, BCL];
+const extensions = [RTAComplete];
 
 const createWatcherArray = (
   basePath: string,
@@ -15,7 +15,7 @@ const createWatcherArray = (
   return extensions.map(ext => basePath + "**/*" + ext);
 };
 
-const toWatch = createWatcherArray("/home/giulio/", extensions);
+const toWatch = createWatcherArray("/brcwork/sequence/bcl/", extensions);
 
 const greenLog = (str: string) => console.log(greenBright(str));
 
@@ -25,34 +25,25 @@ export default async (dbHandler: dbHandler): Promise<void> => {
   const watcher = chokidar.watch(toWatch, {
     persistent: true,
     ignoreInitial: true,
-    ignored: ["*/.DS_Store"]
+    ignored: ["*/.DS_Store"],
+    depth: 1
   });
 
-  const handleRTAComplete = async () => {
+  const handleRTAComplete = async (path: string) => {
     const id = (await dbHandler.GetLatestRun())._id;
+    const BCLFolderPath = path.substring(0, path.lastIndexOf("/") + 1);
     await dbHandler.updateRun(id, {
       RunFinished: true,
-      RunFinishedTime: new Date().toISOString()
+      RunFinishedTime: new Date().toISOString(),
+      BCLFolderPath
     });
     greenLog(`RTAComplete found`);
-  };
-
-  const handleBCL = async (path: string) => {
-    const { _id, BCLFolderPath } = await dbHandler.GetLatestRun();
-    if (!BCLFolderPath) {
-      const BCLFolderPath = path.substring(0, path.lastIndexOf("/") + 1);
-      await dbHandler.updateRun(_id, { BCLFolderPath });
-    }
-    await dbHandler.updateArray(_id, "BCLFilePaths", path);
-    greenLog(`BCL file added at ${path}`);
   };
 
   const onChange = (path: string, stats?: Stats) => {
     console.log(`path: ${path}\nstats: ${stats}`);
     if (path.endsWith(RTAComplete)) {
-      handleRTAComplete();
-    } else if (path.endsWith(BCL)) {
-      handleBCL(path);
+      handleRTAComplete(path);
     }
   };
 
