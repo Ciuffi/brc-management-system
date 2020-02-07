@@ -5,7 +5,8 @@
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "startF": "cross-env NODE_ENV=production forever dist/index.js"
+    "startF": "cross-env NODE_ENV=production forever dist/index.js",
+    "update": "git pull && yarn build && yarn start"
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
