@@ -44,7 +44,7 @@ const RunCard = ({
         <div>
           <b>BCL folder path:</b>{" "}
           <a
-            href={`/bcl/${BCLFolderPath.substr(
+            href={`/bms/bcl/${BCLFolderPath.substr(
               "/brcwork/sequence/bcl/".length
             )}`}
             target="_blank"
