@@ -1,6 +1,5 @@
 import express from "express";
 import next from "next";
-import path from "path";
 import directory from "serve-index";
 import DBHandler from "./DBHandler";
 import Watcher from "./Watcher";
@@ -18,7 +17,11 @@ app
   .then(() => {
     const server = express();
 
-    server.use("/bcl", express.static(bclFilesPath), directory(bclFilesPath));
+    server.use(
+      "/bms/bcl",
+      express.static(bclFilesPath),
+      directory(bclFilesPath)
+    );
 
     server.use((req, res, next) => {
       (req as any).db = dbhandler;
