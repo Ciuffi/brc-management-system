@@ -17,11 +17,8 @@ app
   .then(() => {
     const server = express();
 
-    server.use(
-      "/bms/bcl",
-      express.static(bclFilesPath),
-      directory(bclFilesPath)
-    );
+    server.use("/bcl", directory(bclFilesPath));
+    server.use("/bms/bcl", express.static(bclFilesPath));
 
     server.use((req, res, next) => {
       (req as any).db = dbhandler;
