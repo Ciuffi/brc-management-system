@@ -49,8 +49,9 @@ const RunCard = ({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-          ></a>{" "}
-          {BCLFolderPath}
+          >
+            {BCLFolderPath}
+          </a>
         </div>
       ) : null}
     </div>
