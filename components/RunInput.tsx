@@ -22,7 +22,7 @@ const RunInput = () => {
   return (
     <div className="card" style={{ textAlign: "center", height: "100%" }}>
       <div className="card-header has-background-grey">
-        <div className="has-text-white card-header-title">Set a new run</div>
+        <div className="has-text-white card-header-title">Set a New Run</div>
       </div>
       <div className="card-content">
         <p>Input the name of the sample in the current run</p>
@@ -40,7 +40,7 @@ const RunInput = () => {
             type="text"
             onChange={({ target: { value } }) => setRunName(value)}
             name="fileName"
-            placeholder="run name"
+            placeholder="Run Name"
             style={{ maxWidth: "80%" }}
             value={runName}
           />
