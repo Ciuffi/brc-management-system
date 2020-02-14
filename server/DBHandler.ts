@@ -10,7 +10,7 @@ const COLLECTION_NAME = "runs";
 // Create a new MongoClient
 const client = new MongoClient(url);
 
-class dbHandler {
+class DbHandler {
   db: Db;
   collection: Collection;
 
@@ -86,4 +86,4 @@ class dbHandler {
     return this.collection.updateOne({ _id: id }, { $set: updates });
   };
 }
-export default dbHandler;
+export default DbHandler;
