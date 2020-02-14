@@ -34,7 +34,7 @@ const Login = ({ basePath, error }: loginProps) => (
             If you have any issues logging in, please contact Giulio Rossi @{" "}
             <a href="mailto:ciuffi9@mac.com?subject=BMS support">
               ciuffi9@mac.com
-            </a>
+            </a>{" "}
             for assistance.
           </div>
         </div>
