@@ -1,0 +1,29 @@
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+
+body {
+  background-color: lightgrey;
+}
+
+#mainDiv {
+  margin-top: -2%;
+}
+
+#loginCard {
+  width: 50%;
+  margin: auto;
+}
+.intro {
+  width: 70%;
+  margin: 0 2%;
+  line-height: 1.5em;
+  margin-bottom: 2%;
+}
+@include until($tablet) {
+  #loginCard {
+    width: 80%;
+    text-align: center;
+  }
+  .intro {
+    width: 100%;
+  }
+}
