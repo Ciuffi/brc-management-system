@@ -14,6 +14,11 @@ interface HomeProps {
 const Home = ({ runHistory, stats, watcherStatus }: HomeProps) => (
   <Layout>
     <section className="hero is-info">
+      <a href="/logout">
+        <button className="button is-danger" id="logoutButton">
+          Logout
+        </button>
+      </a>
       <div className="hero-body">
         <div className="container">
           <h1 className="title">BRC AutoRun</h1>
