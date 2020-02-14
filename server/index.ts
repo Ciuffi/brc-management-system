@@ -6,6 +6,7 @@ import Watcher from "./Watcher";
 import configureAuth from "./auth";
 import bodyParser from "body-parser";
 import expressSession from "express-session";
+import { parse } from "url";
 
 const port = parseInt(process.env.PORT || "", 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -75,6 +76,12 @@ app
     // Blocked off index routes
     server.get("/", loggedIn, (req, res) => {
       return app.render(req, res, "/");
+    });
+
+    server.all(["/api", "/api*"], loggedIn, (req, res) => {
+      const path = parse(req.url);
+      console.log(path);
+      return app.render(req, res, path.pathname);
     });
 
     // NextJs handler
