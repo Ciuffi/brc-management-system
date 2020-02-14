@@ -25,7 +25,7 @@ const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
             style={{ width: "100%", display: "inline" }}
             className="has-text-white card-header-title"
           >
-            <p style={{ float: "left" }}>Run History</p>
+            <p style={{ float: "left", fontSize: "1.5em" }}>Run History</p>
             <button
               onClick={reload}
               style={{ float: "right" }}
