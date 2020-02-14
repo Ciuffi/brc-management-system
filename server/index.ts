@@ -55,6 +55,7 @@ app
     // Logout route
     server.get("/logout", loggedIn, (req, res) => {
       req.logout();
+      req.session.destroy(err => (err ? console.log(err) : null));
       res.redirect(`${basePath}/login`);
     });
 

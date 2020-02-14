@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/dotenv": "^8.2.0",
+    "@types/express-session": "^1.15.16",
     "@types/serve-index": "^1.7.30",
     "@zeit/next-sass": "^1.0.1",
     "body-parser": "^1.19.0",
