@@ -1,9 +1,15 @@
 interface LoginFormProps {
   error: boolean;
+  basePath: string;
 }
 
-export default ({ error }: LoginFormProps) => (
-  <form id="loginForm" className="form" action="/login" method="post">
+export default ({ basePath, error }: LoginFormProps) => (
+  <form
+    id="loginForm"
+    className="form"
+    action={`${basePath}/login`}
+    method="post"
+  >
     <input type="hidden" name="user" value="x" />
     <div className="field">
       <div className="control">

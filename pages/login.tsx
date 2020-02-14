@@ -5,9 +5,10 @@ import { NextPageContext } from "next";
 
 interface loginProps {
   error: boolean;
+  basePath: string;
 }
 
-const Login = ({ error }: loginProps) => (
+const Login = ({ basePath, error }: loginProps) => (
   <Layout>
     <section className="hero is-info">
       <div className="hero-body">
@@ -28,7 +29,7 @@ const Login = ({ error }: loginProps) => (
           <div className="intro">
             Please login with your lab's shared password. <br />
           </div>
-          <LoginForm error={error} />
+          <LoginForm basePath={basePath} error={error} />
           <div className="intro" style={{ marginTop: "2%" }}>
             If you have any issues logging in, please contact Giulio Rossi @{" "}
             <a href="mailto:ciuffi9@mac.com?subject=BMS support">
@@ -43,7 +44,11 @@ const Login = ({ error }: loginProps) => (
 );
 
 Login.getInitialProps = (context: NextPageContext) => {
-  return { error: context.req.headers.referer?.endsWith("/login") ?? false };
+  const basePath = (context.req as any).dev ? "" : "/bms";
+  return {
+    basePath,
+    error: context.req.headers.referer?.endsWith("/login") ?? false
+  };
 };
 
 export default Login;

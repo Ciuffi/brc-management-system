@@ -14,6 +14,8 @@ const handle = app.getRequestHandler();
 const dbhandler = new DBHandler();
 const bclFilesPath = "/brcwork/sequence/bcl/";
 
+const basePath = dev ? "" : "/bms";
+
 app
   .prepare()
   .then(dbhandler.initialize)
@@ -43,24 +45,25 @@ app
     server.use(passport.initialize());
     server.use(passport.session());
 
-    // Share database with frontend
+    // Share data with frontend
     server.use((req, res, next) => {
       (req as any).db = dbhandler;
+      (req as any).dev = dev;
       next();
     });
 
     // Logout route
     server.get("/logout", loggedIn, (req, res) => {
       req.logout();
-      res.redirect("/login");
+      res.redirect(`${basePath}/login`);
     });
 
     // Login routes
     server.post(
       "/login",
       passport.authenticate("local", {
-        failureRedirect: "/login",
-        successRedirect: "/",
+        failureRedirect: `${basePath}/login`,
+        successRedirect: `${basePath}/`,
         session: true
       })
     );

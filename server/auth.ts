@@ -7,6 +7,8 @@ import { ensureLoggedIn, ensureLoggedOut } from "connect-ensure-login";
 dotenv.config();
 const token = process.env.brcToken;
 const password = process.env.password;
+const dev = process.env.NODE_ENV !== "production";
+const basePath = dev ? "" : "/bms";
 
 export default () => {
   // Setup authentication handler
@@ -38,9 +40,9 @@ export default () => {
   });
 
   // Setup auth gates
-  const loggedIn = ensureLoggedIn("/login");
+  const loggedIn = ensureLoggedIn(`${basePath}/login`);
 
-  const loggedOut = ensureLoggedOut("/");
+  const loggedOut = ensureLoggedOut(`${basePath}/`);
 
   return { passport, loggedIn, loggedOut };
 };

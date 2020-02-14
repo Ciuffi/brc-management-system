@@ -9,12 +9,13 @@ interface HomeProps {
   runHistory: Run[];
   stats: Run;
   watcherStatus: boolean;
+  basePath: string;
 }
 
-const Home = ({ runHistory, stats, watcherStatus }: HomeProps) => (
+const Home = ({ basePath, runHistory, stats, watcherStatus }: HomeProps) => (
   <Layout>
     <section className="hero is-info">
-      <a href="/logout">
+      <a href={`${basePath}/logout`}>
         <button className="button is-danger" id="logoutButton">
           Logout
         </button>
@@ -43,17 +44,18 @@ const Home = ({ runHistory, stats, watcherStatus }: HomeProps) => (
       </div>
     </div>
     <div className="cards column">
-      <RunHistory runs={runHistory} />
+      <RunHistory basePath={basePath} runs={runHistory} />
     </div>
   </Layout>
 );
 
 Home.getInitialProps = async ({ req }) => {
   const dbHandler = (req as any).db as DBHandler;
+  const basePath = ((req as any).dev as boolean) ? "" : "/bms";
   const runHistory = await dbHandler.GetRunHistory();
   const stats = await dbHandler.GetLatestRun();
   const watcherStatus = await dbHandler.getWatcherStatus();
-  return { runHistory, stats, watcherStatus };
+  return { basePath, runHistory, stats, watcherStatus };
 };
 
 export default Home;

@@ -5,13 +5,14 @@ import fetch from "isomorphic-unfetch";
 
 interface RunHistoryProps {
   runs: Run[];
+  basePath: string;
 }
 
-const RunHistory = ({ runs }: RunHistoryProps) => {
+const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
   const [properRuns, setRuns] = useState(runs);
 
   const reload = async () => {
-    const res = await fetch("/bms/api/runhistory");
+    const res = await fetch(`${basePath}/api/runhistory`);
     const json = await res.json();
     setRuns(json as Run[]);
   };
