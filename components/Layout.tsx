@@ -4,7 +4,7 @@ import "../styles/styles.sass";
 import { ReactChild } from "react";
 
 interface LayoutProps {
-  children: ReactChild[];
+  children: ReactChild[] | ReactChild;
 }
 
 export default ({ children }: LayoutProps) => {
@@ -30,7 +30,9 @@ export default ({ children }: LayoutProps) => {
         <br></br>
         <span>
           If you need assistance in any way, please contact me @{" "}
-          <a href="mailto:ciuffi9@mac.com">ciuffi9@mac.com</a>
+          <a href="mailto:ciuffi9@mac.com?subject=BMS support">
+            ciuffi9@mac.com
+          </a>
         </span>
       </footer>
       <style jsx>{`
