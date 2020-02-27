@@ -89,7 +89,6 @@ dbhandler
 
     server.all(["/api", "/api*"], loggedIn, (req, res) => {
       const path = parse(req.url);
-      console.log(path);
       return app.render(req, res, path.pathname);
     });
 
