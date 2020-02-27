@@ -20,7 +20,7 @@ export default () => {
         session: true
       },
       (user, pass, done) => {
-        console.log("login attempt with password: " + pass);
+        console.log("> login attempt with password: " + pass);
         if (pass === password) {
           done(null, { auth: token });
         } else {

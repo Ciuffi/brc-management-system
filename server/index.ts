@@ -2,7 +2,7 @@ import express from "express";
 import next from "next";
 import directory from "serve-index";
 import DBHandler from "./DBHandler";
-import Watcher from "./Watcher";
+import Watcher, { greenLog } from "./Watcher";
 import configureAuth from "./auth";
 import bodyParser from "body-parser";
 import expressSession from "express-session";
@@ -17,10 +17,19 @@ const bclFilesPath = "/brcwork/sequence/bcl/";
 
 const basePath = dev ? "" : "/bms";
 
-app
-  .prepare()
-  .then(dbhandler.initialize)
+// Initialize the database handler, then
+// Initialize the folder watcher, then
+// Prepare frontend nextjs bundle, then
+// Configuration authentication, then
+// Setup server.
+dbhandler
+  .initialize()
   .then(() => Watcher(dbhandler))
+  .then(async () => {
+    console.log("> preparing frontend bundle..");
+    await app.prepare();
+    greenLog("> Bundle built!");
+  })
   .then(configureAuth)
   .then(auth => {
     const server = express();
@@ -91,6 +100,6 @@ app
 
     server.listen(port, err => {
       if (err) throw err;
-      console.log(`> Ready on http://localhost:${port}`);
+      console.log(`> Listening on http://localhost:${port}`);
     });
   });
