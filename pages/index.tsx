@@ -37,7 +37,7 @@ const Home = ({ basePath, runHistory, stats, watcherStatus }: HomeProps) => (
     </section>
     <div className="cards columns">
       <div className="column is-one-half ">
-        <RunInput />
+        <RunInput basePath={basePath} />
       </div>
       <div className="column is-one-half ">
         <RunStats {...stats} />

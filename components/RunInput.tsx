@@ -1,6 +1,11 @@
 import React, { useState, FormEvent } from "react";
 import fetch from "isomorphic-unfetch";
-const RunInput = () => {
+
+interface RunInputProps {
+  basePath: string;
+}
+
+const RunInput = ({ basePath }: RunInputProps) => {
   const [runName, setRunName] = useState("");
   const [error, setError] = useState(false);
   const submit = async (event: FormEvent) => {
@@ -8,7 +13,7 @@ const RunInput = () => {
     if (runName === "") {
       return;
     }
-    const resp = await fetch("/bms/api/newrun", {
+    const resp = await fetch(`${basePath}/api/newrun`, {
       method: "POST",
       body: JSON.stringify({ RunName: runName })
     });
