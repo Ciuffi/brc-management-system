@@ -15,7 +15,14 @@ class DbHandler {
   collection: Collection;
 
   initialize = async () => {
-    await client.connect();
+    try {
+      await client.connect();
+    } catch (e) {
+      console.error(
+        "Could not connect to database. Please make sure its running and restart the server."
+      );
+      process.exit(1);
+    }
     this.db = client.db(DB_NAME);
     this.collection = this.db.collection(COLLECTION_NAME);
     await this.setWatcherStatus(true);

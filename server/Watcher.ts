@@ -48,6 +48,14 @@ export default async (dbHandler: dbHandler): Promise<void> => {
   };
 
   watcher.on("ready", async () => {
+    const watched = watcher.getWatched();
+    if (Object.keys(watched).length === 0) {
+      console.error(
+        "Unable to find folder to watch. Please make sure these folders exist: ",
+        toWatch
+      );
+      process.exit();
+    }
     await dbHandler.setWatcherStatus(true);
     greenLog("watcher online!");
     console.log(watcher.getWatched());
