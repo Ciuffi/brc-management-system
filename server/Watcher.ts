@@ -58,7 +58,7 @@ export default async (dbHandler: dbHandler): Promise<void> => {
     }
     await dbHandler.setWatcherStatus(true);
     greenLog("watcher online!");
-    console.log(watcher.getWatched());
+    console.log(watched);
     return;
   });
   watcher.on("add", onChange);
