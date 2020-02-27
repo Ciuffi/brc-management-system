@@ -88,8 +88,8 @@ dbhandler
     });
 
     server.all(["/api", "/api*"], loggedIn, (req, res) => {
-      const path = parse(req.url);
-      return app.render(req, res, path.pathname);
+      const path = parse(req.url, true, false);
+      return app.router.execute(req, res, path);
     });
 
     // NextJs handler
