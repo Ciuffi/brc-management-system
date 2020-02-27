@@ -20,7 +20,7 @@ export default async (dbHandler: DbHandler): Promise<void> => {
     let RTAFound = false;
     console.log("> Starting watcher...");
 
-    const watcher = chokidar.watch("/brcwork/sequence/bcl/**/*", {
+    const watcher = chokidar.watch("/brcwork/sequence/bcl/*", {
       persistent: true,
       ignoreInitial: true,
       ignored: ["*/.DS_Store"],
