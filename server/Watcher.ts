@@ -3,7 +3,6 @@ import { Stats } from "fs";
 import DbHandler from "./DBHandler";
 import { greenLog, redLog, yellowLog } from "./Logging";
 const RTAComplete = "RTAComplete";
-const BCL = ".bcl";
 
 const extensionList = [RTAComplete];
 
@@ -44,7 +43,14 @@ export default async (dbHandler: DbHandler): Promise<void> => {
     });
 
     const handleRTAComplete = async (path: string) => {
-      const id = (await dbHandler.GetLatestRun())._id;
+      const lastRun = await dbHandler.GetLatestRun();
+      if (lastRun.RunFinished) {
+        redLog(
+          `> New RTAComplete received but last run: ${lastRun.RunName} has already been processed.\nThis RTAComplete will be ignored.`
+        );
+        return;
+      }
+      const { _id: id } = lastRun;
       await dbHandler.updateRun(id, {
         RunFinished: true,
         RunFinishedTime: new Date().toISOString()
@@ -55,7 +61,13 @@ export default async (dbHandler: DbHandler): Promise<void> => {
     };
 
     const handleBCLFolder = async (path: string) => {
-      const id = (await dbHandler.GetLatestRun())._id;
+      const lastRun = await dbHandler.GetLatestRun();
+      if (!lastRun.RunFinished) {
+        redLog(
+          `> New folder created but last run: ${lastRun.RunName} has not been processed yet.\nThis folder will be ignored.`
+        );
+      }
+      const { _id: id } = lastRun;
       await dbHandler.updateRun(id, {
         BCLFolderPath: path
       });
@@ -69,7 +81,7 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       } else if (RTAFound && stats?.isDirectory()) {
         handleBCLFolder(path);
       } else {
-        yellowLog("> File found bye listener but not processed.");
+        yellowLog("> File found by watcher but not processed.");
       }
     };
 
