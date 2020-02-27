@@ -56,10 +56,10 @@ dbhandler
     server.use(passport.session());
 
     // Share data with frontend
-    server.use((req, res, next) => {
+    server.use((req, res, nextM) => {
       (req as any).db = dbhandler;
       (req as any).dev = dev;
-      next();
+      nextM();
     });
 
     // Logout route

@@ -1,12 +1,12 @@
 import chokidar from "chokidar";
 import { Stats } from "fs";
-import dbHandler from "./DBHandler";
+import DbHandler from "./DBHandler";
 import { greenBright, yellowBright } from "chalk";
 
 const RTAComplete = "RTAComplete";
 const BCL = ".bcl";
 
-const extensions = [RTAComplete];
+const extensionList = [RTAComplete];
 
 const createWatcherArray = (
   basePath: string,
@@ -15,13 +15,13 @@ const createWatcherArray = (
   return extensions.map(ext => basePath + "**/*" + ext);
 };
 
-const toWatch = createWatcherArray("/brcwork/sequence/bcl/", extensions);
+const toWatch = createWatcherArray("/brcwork/sequence/bcl/", extensionList);
 
 export const greenLog = (str: string) => console.log(greenBright(str));
 
 export const yellowLog = (str: string) => console.log(yellowBright(str));
 
-export default async (dbHandler: dbHandler): Promise<void> => {
+export default async (dbHandler: DbHandler): Promise<void> => {
   await new Promise((resolve, reject) => {
     let RTAFound = false;
     console.log("> Starting watcher...");
