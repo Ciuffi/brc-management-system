@@ -1,5 +1,6 @@
 import { MongoClient, Db, Collection, UpdateWriteOpResult } from "mongodb";
 import Run from "./models/Run";
+import { greenLog } from "./Watcher";
 // Connection URL
 const url = "mongodb://localhost:27017";
 
@@ -8,21 +9,23 @@ const DB_NAME = "brc";
 const COLLECTION_NAME = "runs";
 
 // Create a new MongoClient
-const client = new MongoClient(url);
+const client = new MongoClient(url, { useUnifiedTopology: true });
 
 class DbHandler {
   db: Db;
   collection: Collection;
 
   initialize = async () => {
+    console.log("> connecting to database...");
     try {
       await client.connect();
     } catch (e) {
       console.error(
-        "Could not connect to database. Please make sure its running and restart the server."
+        "> Could not connect to database. Please make sure its running and restart the server."
       );
       process.exit(1);
     }
+    greenLog("> connected successfully to database!");
     this.db = client.db(DB_NAME);
     this.collection = this.db.collection(COLLECTION_NAME);
     await this.setWatcherStatus(true);
