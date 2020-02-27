@@ -3,7 +3,7 @@ import next from "next";
 import directory from "serve-index";
 import DBHandler from "./DBHandler";
 import Watcher, { greenLog } from "./Watcher";
-import configureAuth from "./auth";
+import configureAuth from "./Auth";
 import bodyParser from "body-parser";
 import expressSession from "express-session";
 import { parse } from "url";
