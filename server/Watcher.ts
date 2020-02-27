@@ -1,8 +1,7 @@
 import chokidar from "chokidar";
 import { Stats } from "fs";
 import DbHandler from "./DBHandler";
-import { greenBright, yellowBright } from "chalk";
-
+import { greenLog, redLog, yellowLog } from "./Logging";
 const RTAComplete = "RTAComplete";
 const BCL = ".bcl";
 
@@ -16,10 +15,6 @@ const createWatcherArray = (
 };
 
 const toWatch = createWatcherArray("/brcwork/sequence/bcl/", extensionList);
-
-export const greenLog = (str: string) => console.log(greenBright(str));
-
-export const yellowLog = (str: string) => console.log(yellowBright(str));
 
 export default async (dbHandler: DbHandler): Promise<void> => {
   await new Promise((resolve, reject) => {

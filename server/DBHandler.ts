@@ -1,6 +1,6 @@
 import { MongoClient, Db, Collection, UpdateWriteOpResult } from "mongodb";
 import Run from "./models/Run";
-import { greenLog } from "./Watcher";
+import { greenLog } from "./Logging";
 // Connection URL
 const url = "mongodb://localhost:27017";
 
