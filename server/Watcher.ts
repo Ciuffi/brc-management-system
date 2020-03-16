@@ -2,25 +2,26 @@ import chokidar from "chokidar";
 import { Stats } from "fs";
 import DbHandler from "./DBHandler";
 import { greenLog, redLog, yellowLog, redError } from "./Logging";
+import { existsSync } from "fs";
+const Prod = process.env.NODE_ENV === "production";
+const folderPath = Prod ? "/brcwork/sequence/bcl/" : "./test/";
 const RTAComplete = "RTAComplete";
 
-const extensionList = [RTAComplete];
-
-const createWatcherArray = (
-  basePath: string,
-  extensions: string[]
-): string[] => {
-  return extensions.map(ext => basePath + "**/*" + ext);
-};
-
-const toWatch = createWatcherArray("/brcwork/sequence/bcl/", extensionList);
+const folderExists = existsSync(folderPath);
+if (!folderExists) {
+  redError(
+    "> Unable to find folder to watch. Please make sure these folders exist: ",
+    folderPath
+  );
+  process.exit(1);
+}
 
 export default async (dbHandler: DbHandler): Promise<void> => {
   await new Promise((resolve, reject) => {
     let RTAFound = false;
     console.log("> Starting watcher...");
 
-    const watcher = chokidar.watch("/brcwork/sequence/bcl/*", {
+    const watcher = chokidar.watch(`${folderPath}*`, {
       persistent: true,
       ignoreInitial: true,
       ignored: ["*/.DS_Store"],
@@ -29,13 +30,6 @@ export default async (dbHandler: DbHandler): Promise<void> => {
 
     watcher.on("ready", async () => {
       const watched = watcher.getWatched();
-      if (Object.keys(watched).length === 0) {
-        redError(
-          "> Unable to find folder to watch. Please make sure these folders exist: ",
-          toWatch
-        );
-        process.exit(1);
-      }
       await dbHandler.setWatcherStatus(true);
       greenLog("> watcher online!\n> Watching:");
       console.log(watched);
@@ -44,6 +38,10 @@ export default async (dbHandler: DbHandler): Promise<void> => {
 
     const handleRTAComplete = async (path: string) => {
       const lastRun = await dbHandler.GetLatestRun();
+      if (!lastRun) {
+        redLog("> No runs inputted but RTAComplete found.");
+        return;
+      }
       if (lastRun.RunFinished) {
         redLog(
           `> New RTAComplete received but last run: ${lastRun.RunName} has already been processed.\nThis RTAComplete will be ignored.`
