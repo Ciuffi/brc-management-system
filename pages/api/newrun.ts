@@ -7,11 +7,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const RunName = data.RunName;
   if (!(req.method === "POST") || !RunName) {
     res.statusCode = 500;
-    res.end();
+    res.send(500);
     return;
   } else {
     dbHandler.InsertNewRun("", RunName, false, false);
     res.statusCode = 200;
-    res.end();
+    res.send(200);
   }
 };
