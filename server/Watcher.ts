@@ -1,7 +1,7 @@
 import chokidar from "chokidar";
 import { Stats } from "fs";
 import DbHandler from "./DBHandler";
-import { greenLog, redLog, yellowLog } from "./Logging";
+import { greenLog, redLog, yellowLog, redError } from "./Logging";
 const RTAComplete = "RTAComplete";
 
 const extensionList = [RTAComplete];
@@ -30,7 +30,7 @@ export default async (dbHandler: DbHandler): Promise<void> => {
     watcher.on("ready", async () => {
       const watched = watcher.getWatched();
       if (Object.keys(watched).length === 0) {
-        console.error(
+        redError(
           "> Unable to find folder to watch. Please make sure these folders exist: ",
           toWatch
         );

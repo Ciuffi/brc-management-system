@@ -1,6 +1,6 @@
 import { MongoClient, Db, Collection, UpdateWriteOpResult } from "mongodb";
 import Run from "./models/Run";
-import { greenLog } from "./Logging";
+import { greenLog, redError } from "./Logging";
 // Connection URL
 const url = "mongodb://localhost:27017";
 
@@ -20,7 +20,7 @@ class DbHandler {
     try {
       await client.connect();
     } catch (e) {
-      console.error(
+      redError(
         "> Could not connect to database. Please make sure its running and restart the server."
       );
       process.exit(1);
