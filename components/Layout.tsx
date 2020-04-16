@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Link from "next/link";
 import "../styles/styles.sass";
 import { ReactChild } from "react";
 
@@ -14,10 +13,6 @@ export default ({ children }: LayoutProps) => {
    * https://bulma.io/documentation/components/navbar/#navbar-menu
    * https://github.com/jgthms/bulma/issues/856
    */
-  const toggleStyles = () => {
-    document?.querySelector("#burger")?.classList.toggle("is-active");
-    document?.querySelector("#navbarmenu")?.classList.toggle("is-active");
-  };
 
   return (
     <div style={{ minHeight: "100vh", position: "relative" }}>
