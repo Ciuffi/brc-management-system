@@ -29,7 +29,7 @@ const RunInput = ({ basePath }: RunInputProps) => {
       <div className="card-header has-background-grey">
         <div className="has-text-white card-header-title">Set a New Run</div>
       </div>
-      <div className="card-content">
+      <div style={{ paddingTop: "15px" }} className="card-content">
         <p>Input the name of the sample in the current run</p>
       </div>
       <div className="card-footer">
