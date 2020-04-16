@@ -1,25 +1,33 @@
 import Run from "../server/models/Run";
 
-const RunStats = ({ RunName, Error, RunFinished }: Run) => {
+const RunStats = ({
+  RunName,
+  Error,
+  RunFinished,
+  AnalysisFinished,
+  RunFinishedTime
+}: Run) => {
   return (
-    <div className="card" style={{ textAlign: "center", height: "100%" }}>
+    <div className="card" style={{ height: "100%" }}>
       <div className="card-header has-background-grey">
         <div className="has-text-white card-header-title">
           Current Run Statistics
         </div>
       </div>
       <div className="card-content">
-        <p>Current run name: {RunName}</p>
-        {RunFinished ? (
-          <p style={{ color: "green" }}>This run has been processed!</p>
-        ) : (
-          <p style={{ color: "orange" }}>This file has not been processed</p>
-        )}
-        {Error && (
-          <p style={{ color: "red" }}>
-            Something went wrong.. Please check the stacktrace.
+        <p style={{ fontSize: "20px", marginTop: "0" }}>
+          Current run: {RunName}
+        </p>
+        <div style={{ marginLeft: "5px", marginTop: "5px" }}>
+          <p>
+            {RunFinished ? "✔" : "❌"} Sequencer Finished{" "}
+            {RunFinishedTime && (
+              <span style={{ color: "grey" }}>at {RunFinishedTime}</span>
+            )}
           </p>
-        )}
+          <p> {AnalysisFinished ? "✔" : "❌"} Analysis Finished</p>
+          {Error && <p style={{ color: "red" }}>❌Something went wrong...❌</p>}
+        </div>
       </div>
     </div>
   );
