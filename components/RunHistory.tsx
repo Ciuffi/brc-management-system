@@ -17,6 +17,17 @@ const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
     setRuns(json as Run[]);
   };
 
+  const filterRuns = (query: string) => {
+    const filteredRuns: Run[] = runs.filter((run: Run) => {
+      return Object.values(run).some((val: string) => {
+        return String(val)
+          .toLowerCase()
+          .includes(query.toLowerCase());
+      });
+    });
+    setRuns(query ? filteredRuns : runs);
+  };
+
   return (
     <div>
       <div className="history card" style={{ textAlign: "center" }}>
@@ -26,6 +37,11 @@ const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
             className="has-text-white card-header-title"
           >
             <p style={{ float: "left", fontSize: "1.5em" }}>Run History</p>
+            <input
+              className="input searchBox"
+              onChange={e => filterRuns(e.target.value)}
+              placeholder="Filter Runs"
+            />
             <button
               onClick={reload}
               style={{ float: "right" }}
@@ -47,6 +63,15 @@ const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
       <style jsx>{`
         .history {
           margin: auto;
+        }
+        .searchBox {
+          width: 40%;
+          height: 70%;
+          margin-top: 5px;
+        }
+        ::placeholder {
+          color: darkGrey;
+          opacity: 0.8;
         }
       `}</style>
     </div>

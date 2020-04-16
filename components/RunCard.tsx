@@ -11,7 +11,6 @@ const RunCard = ({
     RunFinished,
     CreatedTime,
     RunFinishedTime,
-    BCLFilePaths,
     BCLFolderPath
   }
 }: RunCardProps) => {
