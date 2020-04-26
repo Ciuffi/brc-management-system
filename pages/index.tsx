@@ -10,9 +10,16 @@ interface HomeProps {
   stats: Run;
   watcherStatus: boolean;
   basePath: string;
+  latestBCLID: number;
 }
 
-const Home = ({ basePath, runHistory, stats, watcherStatus }: HomeProps) => (
+const Home = ({
+  latestBCLID,
+  basePath,
+  runHistory,
+  stats,
+  watcherStatus
+}: HomeProps) => (
   <Layout>
     <section className="hero is-info">
       <a href={`${basePath}/logout`}>
@@ -37,7 +44,7 @@ const Home = ({ basePath, runHistory, stats, watcherStatus }: HomeProps) => (
     </section>
     <div className="cards columns">
       <div className="column is-one-half ">
-        <RunInput basePath={basePath} />
+        <RunInput latestBCLID={latestBCLID} basePath={basePath} />
       </div>
       <div className="column is-one-half ">
         <RunStats {...stats} />
@@ -55,7 +62,8 @@ Home.getInitialProps = async ({ req }) => {
   const runHistory = await dbHandler.GetRunHistory();
   const stats = await dbHandler.GetLatestRun();
   const watcherStatus = await dbHandler.getWatcherStatus();
-  return { basePath, runHistory, stats, watcherStatus };
+  const latestBCLID = await dbHandler.getLatestBCLID();
+  return { latestBCLID, basePath, runHistory, stats, watcherStatus };
 };
 
 export default Home;
