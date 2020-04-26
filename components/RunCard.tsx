@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Run from "../server/models/Run";
 interface RunCardProps {
   run: Run;
+  reload: () => any;
+  basePath: string;
 }
 const RunCard = ({
   run: {
@@ -11,10 +13,20 @@ const RunCard = ({
     RunFinished,
     CreatedTime,
     RunFinishedTime,
-    BCLFolderPath
-  }
+    BCLFolderPath,
+    _id
+  },
+  reload,
+  basePath
 }: RunCardProps) => {
   const [CardShown, SetCardShown] = useState(false);
+  const deleteRun = async (id: string) => {
+    const res = await fetch(`${basePath}/api/deleterun`, {
+      method: "POST",
+      body: JSON.stringify({ RunID: id })
+    });
+    await reload();
+  };
   return (
     <div
       className={`message ${RunFinished ? "is-success" : ""} ${
@@ -65,6 +77,11 @@ const RunCard = ({
             ? new Date(AnalysisStartTime).toLocaleString("en-US")
             : "unfinished"}
         </p>
+        <div style={{ textAlign: "center" }}>
+          <button onClick={() => deleteRun(_id)} className="button is-danger">
+            Delete Run
+          </button>
+        </div>
       </div>
       <style jsx>{`
         .bclPath {

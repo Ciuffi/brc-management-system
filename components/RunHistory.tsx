@@ -53,7 +53,14 @@ const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
         </div>
         <div className="card-content">
           {!!properRuns.length ? (
-            properRuns.map(run => <RunCard run={run} key={run._id} />)
+            properRuns.map(run => (
+              <RunCard
+                basePath={basePath}
+                reload={reload}
+                run={run}
+                key={run._id}
+              />
+            ))
           ) : (
             <h1>Currently No Runs </h1>
           )}

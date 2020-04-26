@@ -1,4 +1,11 @@
-import { MongoClient, Db, Collection, UpdateWriteOpResult } from "mongodb";
+import {
+  MongoClient,
+  Db,
+  Collection,
+  UpdateWriteOpResult,
+  DeleteWriteOpResultObject,
+  ObjectID
+} from "mongodb";
 import Run from "./models/Run";
 import { greenLog, redError } from "./Logging";
 // Connection URL
@@ -48,6 +55,18 @@ class DbHandler {
     return status.on;
   };
 
+  updateBCLID = async (): Promise<UpdateWriteOpResult> => {
+    return this.db.collection("status").updateOne(
+      { _id: "BCLID" },
+      {
+        $inc: { index: 1 }
+      }
+    );
+  };
+  getLatestBCLID = async (): Promise<number> => {
+    return (await this.db.collection("status").findOne({ _id: "BCLID" })).index;
+  };
+
   GetRunHistory = async (): Promise<Run[]> => {
     return await this.collection
       .find({})
@@ -70,6 +89,10 @@ class DbHandler {
     });
   };
 
+  DeleteRun = async (id: string): Promise<DeleteWriteOpResultObject> => {
+    console.log(id);
+    return this.collection.deleteOne({ _id: new ObjectID(id) });
+  };
   GetLatestRun = async (): Promise<Run> => {
     return this.collection
       .find({})
@@ -78,9 +101,9 @@ class DbHandler {
       .next();
   };
 
-  updateArray = async (id: number, array: string, element: string) => {
+  updateArray = async (id: string, array: string, element: string) => {
     return this.collection.updateOne(
-      { _id: id },
+      { _id: new ObjectID(id) },
       {
         $push: {
           [array]: element
@@ -90,10 +113,13 @@ class DbHandler {
   };
 
   updateRun = async (
-    id: number,
+    id: string,
     updates: Run
   ): Promise<UpdateWriteOpResult> => {
-    return this.collection.updateOne({ _id: id }, { $set: updates });
+    return this.collection.updateOne(
+      { _id: new ObjectID(id) },
+      { $set: updates }
+    );
   };
 }
 export default DbHandler;

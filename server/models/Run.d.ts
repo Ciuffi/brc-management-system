@@ -1,7 +1,7 @@
 interface Run {
   LabName?: string;
   RunName?: string;
-  _id?: number;
+  _id?: string;
   RunFinished?: boolean;
   AnalysisFinished?: boolean;
   Error?: boolean;
