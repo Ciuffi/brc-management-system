@@ -22,7 +22,9 @@ const RunStats = ({
           <p>
             {RunFinished ? "✔" : "❌"} Sequencer Finished{" "}
             {RunFinishedTime && (
-              <span style={{ color: "grey" }}>at {RunFinishedTime}</span>
+              <span style={{ color: "grey" }}>
+                at {new Date(RunFinishedTime).toLocaleString("en-us")}
+              </span>
             )}
           </p>
           <p> {AnalysisFinished ? "✔" : "❌"} Analysis Finished</p>
