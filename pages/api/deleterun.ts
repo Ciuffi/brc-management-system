@@ -11,7 +11,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   } else {
     const result = await dbHandler.DeleteRun(RunID);
-    console.log(result);
     res.statusCode = 200;
     res.send(200);
   }

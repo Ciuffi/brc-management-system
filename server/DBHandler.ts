@@ -92,7 +92,6 @@ class DbHandler {
   };
 
   DeleteRun = async (id: string): Promise<DeleteWriteOpResultObject> => {
-    console.log(id);
     return this.collection.deleteOne({ _id: new ObjectID(id) });
   };
   GetLatestRun = async (): Promise<Run> => {
