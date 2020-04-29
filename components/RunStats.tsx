@@ -17,7 +17,7 @@ const RunStats = ({
       </div>
       <div style={{ paddingTop: "15px" }} className="card-content">
         <p style={{ textAlign: "center", fontSize: "20px", marginTop: "0" }}>
-          Current run: <b>{RunName}</b>
+          Current run: <b>{RunName ?? "No current runs"}</b>
         </p>
         <div style={{ marginLeft: "5px", marginTop: "5px" }}>
           <p>
