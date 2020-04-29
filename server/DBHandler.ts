@@ -80,7 +80,7 @@ class DbHandler {
     runFinished: boolean,
     error: boolean
   ): Promise<void> => {
-    this.collection.insertOne({
+    await this.collection.insertOne({
       LabName: labName,
       RunName: runName,
       RunFinished: runFinished,
@@ -99,6 +99,10 @@ class DbHandler {
       .sort({ _id: -1 })
       .limit(1)
       .next();
+  };
+
+  GetRun = async (name: string): Promise<Run> => {
+    return this.collection.findOne({ RunName: name });
   };
 
   updateArray = async (id: string, array: string, element: string) => {
