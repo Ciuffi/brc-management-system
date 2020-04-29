@@ -18,7 +18,6 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
       .toString()
       .substring(2);
     let day = date.getDate().toString();
-    console.log(day);
     if (day.length < 2) {
       day = `0${day}`;
     }
@@ -26,7 +25,6 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
       day = `0${day}`;
     }
     let month = (date.getMonth() + 1).toString();
-    console.log(month);
     if (month.length < 2) {
       month = `0${month}`;
     }
@@ -62,7 +60,7 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
         <div className="has-text-white card-header-title">Set a New Run</div>
       </div>
       <div style={{ paddingTop: "15px" }} className="card-content">
-        <p>Input the name of the sample in the current run</p>
+        <p>Use these fields to estimate a BCL folder name.</p>
       </div>
       <div className="card-footer">
         <form
@@ -72,7 +70,7 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
           method="post"
         >
           <p style={{ margin: "2%", textAlign: "center" }}>
-            Current run name: <b>{runName}</b>
+            new run name: <b>{runName}</b>
           </p>
           <table
             className="table"
