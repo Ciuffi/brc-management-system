@@ -73,7 +73,8 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       await dbHandler.updateRun(id, {
         BCLFolderPath: path,
         RunName: folderName,
-        RunFinished: true
+        RunFinished: true,
+        RunFinishedTime: new Date().toISOString()
       });
       greenLog("> BCL Folder created and associated.");
       //RTAFound = false;

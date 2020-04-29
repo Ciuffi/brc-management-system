@@ -55,11 +55,11 @@ class DbHandler {
     return status.on;
   };
 
-  updateBCLID = async (): Promise<UpdateWriteOpResult> => {
+  updateBCLID = async (index): Promise<UpdateWriteOpResult> => {
     return this.db.collection("status").updateOne(
       { _id: "BCLID" },
       {
-        $inc: { index: 1 }
+        $set: { index: index + 1 }
       }
     );
   };
@@ -76,6 +76,7 @@ class DbHandler {
 
   InsertNewRun = async (
     labName: string,
+    index: number,
     runName: string,
     runFinished: boolean,
     error: boolean
@@ -87,6 +88,7 @@ class DbHandler {
       Error: error,
       CreatedTime: new Date().toISOString()
     });
+    await this.updateBCLID(index);
   };
 
   DeleteRun = async (id: string): Promise<DeleteWriteOpResultObject> => {

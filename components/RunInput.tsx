@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 
 const Machines = ["NS500668", "NB501484"];
@@ -11,16 +11,15 @@ interface RunInputProps {
 const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
   const [machineName, setmachineName] = useState(Machines[0]);
   const [selectedDate, setSelecteDate] = useState(new Date());
+  const [file, setFile] = useState<File>();
   const [error, setError] = useState(false);
+  const [runIndex, setRunIndex] = useState(latestBCLID);
   const createRunName = (date: Date, machine: string, index: number) => {
     const year = date
       .getFullYear()
       .toString()
       .substring(2);
-    let day = date.getDate().toString();
-    if (day.length < 2) {
-      day = `0${day}`;
-    }
+    let day = (date.getDate() + 1).toString();
     if (day.length < 2) {
       day = `0${day}`;
     }
@@ -31,27 +30,45 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
     const datePart = `${year}${month}${day}`;
     return `${datePart}_${machine}_${index}_XXXXXXXXXX`;
   };
-  const [runName, setRunName] = useState(
-    createRunName(selectedDate, machineName, latestBCLID)
-  );
+  const [runName, setRunName] = useState("");
+
+  useEffect(() => {
+    updateRunName();
+  }, [selectedDate, machineName, runIndex]);
 
   const updateRunName = () => {
-    setRunName(createRunName(selectedDate, machineName, latestBCLID));
+    setRunName(createRunName(selectedDate, machineName, runIndex));
   };
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (!machineName || !selectedDate) {
       return;
     }
+    if (runIndex < 100) {
+      return;
+    }
     const resp = await fetch(`${basePath}/api/newrun`, {
       method: "POST",
-      body: JSON.stringify({ RunName: runName })
+      body: JSON.stringify({ RunName: runName, index: runIndex })
     });
-    if (resp.status === 200) {
-      window.location.reload();
-    } else {
+    if (resp.status !== 200) {
       setError(true);
+      return;
     }
+    if (file) {
+      const formData = new FormData();
+      formData.append("sample", file);
+      formData.append("runName", runName);
+      const fileResp = await fetch(`${basePath}/upload`, {
+        method: "POST",
+        body: formData
+      });
+      if (fileResp.status !== 200) {
+        setError(true);
+        return;
+      }
+    }
+    location.reload();
   };
 
   return (
@@ -90,7 +107,6 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
                     type="date"
                     onChange={({ target: { value } }) => {
                       setSelecteDate(new Date(value));
-                      updateRunName();
                     }}
                     name="fileName"
                     style={{ width: "150px", fontSize: "12px" }}
@@ -109,7 +125,6 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
                     value={machineName}
                     onChange={e => {
                       setmachineName(e.target.value);
-                      updateRunName();
                     }}
                     name="machine-select"
                     id="machine-select"
@@ -120,6 +135,47 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
                       </option>
                     ))}
                   </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Run Index:</label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    style={{ height: "2rem", width: "150px" }}
+                    className={`input ${runIndex >= 100 ? null : "is-danger"}`}
+                    value={runIndex}
+                    onChange={e => {
+                      const num = parseInt(e.target.value);
+                      if (isNaN(num)) {
+                        setRunIndex(0);
+                      } else {
+                        setRunIndex(num);
+                      }
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td style={{ verticalAlign: "middle" }}>
+                  <label>Sample Sheet upload</label>
+                </td>
+                <td>
+                  <div style={{ alignItems: "center" }} className="file">
+                    <label style={{ marginLeft: "2%" }} className="file-label">
+                      <input
+                        onChange={e => setFile(e.target.files[0])}
+                        className="file-input"
+                        type="file"
+                        name="resume"
+                      />
+                      <span className="file-cta">
+                        <span className="file-label">Upload</span>
+                      </span>
+                    </label>
+                  </div>
                 </td>
               </tr>
             </tbody>

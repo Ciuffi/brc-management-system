@@ -13,5 +13,6 @@ interface Run {
   BCLFilePaths?: string[];
   FASTQFolderPath?: string;
   FASTQFilePaths?: string[];
+  SampleSheetPath?: string;
 }
 export default Run;

@@ -5,7 +5,8 @@ const RunStats = ({
   Error,
   RunFinished,
   AnalysisFinished,
-  RunFinishedTime
+  RunFinishedTime,
+  SampleSheetPath
 }: Run) => {
   return (
     <div className="card" style={{ height: "100%" }}>
@@ -28,6 +29,7 @@ const RunStats = ({
             )}
           </p>
           <p> {AnalysisFinished ? "✔" : "❌"} Analysis Finished</p>
+          <p>{SampleSheetPath ? "✔" : "❌"} Sample sheet provided</p>
           {Error && <p style={{ color: "red" }}>❌Something went wrong...❌</p>}
         </div>
       </div>

@@ -14,7 +14,8 @@ const RunCard = ({
     CreatedTime,
     RunFinishedTime,
     BCLFolderPath,
-    _id
+    _id,
+    SampleSheetPath
   },
   reload,
   basePath
@@ -25,6 +26,21 @@ const RunCard = ({
       method: "POST",
       body: JSON.stringify({ RunID: id })
     });
+    await reload();
+  };
+  const uploadSampleSheet = async (file: File) => {
+    if (file) {
+      const formData = new FormData();
+      formData.append("sample", file);
+      formData.append("runName", RunName);
+      const fileResp = await fetch(`${basePath}/upload`, {
+        method: "POST",
+        body: formData
+      });
+      if (fileResp.status !== 200) {
+        return;
+      }
+    }
     await reload();
   };
   return (
@@ -51,6 +67,26 @@ const RunCard = ({
         <p>
           <b>Run started on:</b> {new Date(CreatedTime).toLocaleString("en-US")}
         </p>
+
+        <div style={{ alignItems: "center" }} className="file">
+          <p>
+            <b>sample sheet:</b> {SampleSheetPath ? "✔" : "❌"} Sample sheet
+            provided
+          </p>
+          <label style={{ marginLeft: "2%" }} className="file-label">
+            <input
+              onChange={e => uploadSampleSheet(e.target.files[0])}
+              className="file-input"
+              type="file"
+              name="resume"
+            />
+            <span className="file-cta">
+              <span className="file-label">
+                {SampleSheetPath ? "Reupload" : "Upload"}{" "}
+              </span>
+            </span>
+          </label>
+        </div>
         <p>
           <b>Run finished at: </b>{" "}
           {RunFinishedTime
