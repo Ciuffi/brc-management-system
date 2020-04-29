@@ -31,8 +31,8 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
       month = `0${month}`;
     }
     let indexString = index.toString();
-    if (index < 1000) {
-      indexString = `0${index}`;
+    while (indexString.length < 4) {
+      indexString = "0" + indexString;
     }
     const datePart = `${year}${month}${day}`;
     return `${datePart}_${machine}_${indexString}_XXXXXXXXXX`;
