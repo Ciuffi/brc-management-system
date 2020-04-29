@@ -16,6 +16,9 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const dbhandler = new DBHandler();
 const bclFilesPath = "/brcwork/sequence/bcl/";
+const samplePaths = !dev
+  ? "/brcwork/sequence/Archive/sampleSheets/"
+  : "./test/samples/";
 
 const basePath = dev ? "" : "/bms";
 
@@ -77,7 +80,7 @@ dbhandler
         res.status(503).send();
         return;
       }
-      const path = `test/samples/${run.RunName}.xlsx`;
+      const path = `${samplePaths}${run.RunName}.xlsx`;
       await (sample as UploadedFile).mv(path);
       await req.db.updateRun(run._id, {
         SampleSheetPath: path
