@@ -8,6 +8,7 @@ import configureAuth from "./Auth";
 import bodyParser from "body-parser";
 import expressSession from "express-session";
 import { parse } from "url";
+import expressFileUpload, { UploadedFile } from "express-fileupload";
 
 const port = parseInt(process.env.PORT || "", 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -39,6 +40,7 @@ dbhandler
     // Server static files
     server.use("/bms/bcl", loggedIn, directory(bclFilesPath));
     server.use("/bcl", loggedIn, express.static(bclFilesPath));
+    server.use(expressFileUpload());
 
     // Setup Auth and its dependancies.
     server.use(
@@ -58,9 +60,29 @@ dbhandler
 
     // Share data with frontend
     server.use((req, res, nextM) => {
-      (req as any).db = dbhandler;
-      (req as any).dev = dev;
+      req.db = dbhandler;
+      req.dev = dev;
       nextM();
+    });
+
+    server.post("/upload", loggedIn, async (req, res) => {
+      const { runName } = req.body;
+      const { sample } = req.files;
+      if (!runName || !sample) {
+        res.status(503).send();
+        return;
+      }
+      const run = await req.db.GetRun(runName as string);
+      if (!run) {
+        res.status(503).send();
+        return;
+      }
+      const path = `test/samples/${run.RunName}.xlsx`;
+      await (sample as UploadedFile).mv(path);
+      await req.db.updateRun(run._id, {
+        SampleSheetPath: path
+      });
+      return res.status(200).send();
     });
 
     // Logout route
