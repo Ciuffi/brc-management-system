@@ -15,6 +15,9 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
   const [error, setError] = useState(false);
   const [runIndex, setRunIndex] = useState(latestBCLID);
   const createRunName = (date: Date, machine: string, index: number) => {
+    if (!date) {
+      return;
+    }
     const year = date
       .getFullYear()
       .toString()
@@ -106,11 +109,14 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
                     className="input date"
                     type="date"
                     onChange={({ target: { value } }) => {
+                      if (!value) {
+                        return;
+                      }
                       setSelecteDate(new Date(value));
                     }}
                     name="fileName"
                     style={{ width: "150px", fontSize: "12px" }}
-                    value={selectedDate.toISOString().substr(0, 10)}
+                    value={selectedDate?.toISOString().substr(0, 10)}
                   />
                 </td>
               </tr>
