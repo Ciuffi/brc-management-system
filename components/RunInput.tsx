@@ -30,8 +30,12 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
     if (month.length < 2) {
       month = `0${month}`;
     }
+    let indexString = index.toString();
+    if (index < 1000) {
+      indexString = `0${index}`;
+    }
     const datePart = `${year}${month}${day}`;
-    return `${datePart}_${machine}_${index}_XXXXXXXXXX`;
+    return `${datePart}_${machine}_${indexString}_XXXXXXXXXX`;
   };
   const [runName, setRunName] = useState("");
 
