@@ -106,6 +106,10 @@ class DbHandler {
     return this.collection.findOne({ RunName: name });
   };
 
+  GetRunByID = async (_id: string): Promise<Run> => {
+    return this.collection.findOne({ _id });
+  };
+
   updateArray = async (id: string, array: string, element: string) => {
     return this.collection.updateOne(
       { _id: new ObjectID(id) },
