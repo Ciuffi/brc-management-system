@@ -7,19 +7,20 @@ interface RunCardProps {
 }
 const RunCard = ({
   run: {
-    AnalysisStartTime,
+    AnalysisStartedOn: AnalysisStartTime,
     RunName,
     Error,
-    RunFinished,
-    CreatedTime,
-    RunFinishedTime,
+    CreatedOn: CreatedTime,
+    RunFinishedOn: RunFinishedTime,
     BCLFolderPath,
     _id,
-    SampleSheetPath
+    SampleSheetPath,
+    RunStatus
   },
   reload,
   basePath
 }: RunCardProps) => {
+  const RunFinished = RunStatus === "EndRun";
   const [CardShown, SetCardShown] = useState(false);
   const deleteRun = async (id: string) => {
     const res = await fetch(`${basePath}/api/deleterun`, {

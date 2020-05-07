@@ -45,7 +45,7 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       }
       const currentRun = activeRuns.shift();
       const lastRun = await dbHandler.GetRunByID(currentRun);
-      if (lastRun.RunFinished) {
+      if (lastRun.RunStatus !== "BeginRun") {
         redLog(
           `> New RTAComplete received but last run: ${lastRun.RunName} has already been processed.\nThis RTAComplete will be ignored.`
         );
@@ -53,8 +53,8 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       }
       const { _id: id } = lastRun;
       await dbHandler.updateRun(id, {
-        RunFinished: true,
-        RunFinishedTime: new Date().toISOString()
+        RunStatus: "EndRun",
+        RunFinishedOn: new Date().toISOString()
       });
       greenLog(`> RTAComplete found`);
       if (activeRuns.length === 0) {
@@ -84,7 +84,8 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       const { _id: id } = RelevantRun;
       await dbHandler.updateRun(id, {
         BCLFolderPath: path,
-        RunName: folderName
+        RunName: folderName,
+        RunStatus: "BeginRun"
       });
       activeRuns.push(id);
       greenLog("> BCL Folder created and associated.");

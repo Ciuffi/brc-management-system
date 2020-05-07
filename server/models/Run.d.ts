@@ -2,17 +2,24 @@ interface Run {
   LabName?: string;
   RunName?: string;
   _id?: string;
-  RunFinished?: boolean;
-  AnalysisFinished?: boolean;
+  RunStatus?:
+    | "Created"
+    | "BeginRun"
+    | "EndRun"
+    | "BeginBCL2FASTQ"
+    | "EndBCL2FASTQ"
+    | "BeginAnalysis"
+    | "EndAnalysis";
   Error?: boolean;
-  CreatedTime?: string;
-  AnalysisStartTime?: string;
-  RunFinishedTime?: string;
-  AnalysisFinishedTime?: string;
+  CreatedOn?: string;
+  RunStartedOn?: string;
+  RunFinishedOn?: string;
+  BCL2FASTQStartedOn?: string;
+  BCL2FASTQFinishedOn?: string;
+  AnalysisStartedOn?: string;
+  AnalysisFinishedOn?: string;
   BCLFolderPath?: string;
-  BCLFilePaths?: string[];
   FASTQFolderPath?: string;
-  FASTQFilePaths?: string[];
   SampleSheetPath?: string;
 }
 export default Run;

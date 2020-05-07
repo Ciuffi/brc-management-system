@@ -81,13 +81,14 @@ class DbHandler {
     runFinished: boolean,
     error: boolean
   ): Promise<void> => {
-    await this.collection.insertOne({
+    const newRun: Run = {
       LabName: labName,
       RunName: runName,
-      RunFinished: runFinished,
+      RunStatus: "Created",
       Error: error,
-      CreatedTime: new Date().toISOString()
-    });
+      CreatedOn: new Date().toISOString()
+    };
+    await this.collection.insertOne(newRun);
     await this.updateBCLID(index);
   };
 
