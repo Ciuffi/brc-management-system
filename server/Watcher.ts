@@ -37,6 +37,11 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       console.log(watched);
       resolve();
     });
+    process.on("exit", async () => {
+      yellowLog("> Shutting down...");
+      await dbHandler.setWatcherStatus(false);
+      greenLog("> Goodbye!");
+    });
 
     const handleRTAComplete = async (path: string) => {
       if (!activeRuns.length) {
