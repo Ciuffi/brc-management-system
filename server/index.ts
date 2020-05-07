@@ -9,6 +9,8 @@ import bodyParser from "body-parser";
 import expressSession from "express-session";
 import { parse } from "url";
 import expressFileUpload, { UploadedFile } from "express-fileupload";
+import Run from "./models/Run";
+import BCL2FASTQ from "./BCL2FASTQ";
 
 const port = parseInt(process.env.PORT || "", 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -75,16 +77,19 @@ dbhandler
         res.status(503).send();
         return;
       }
-      const run = await req.db.GetRun(runName as string);
+      const run: Run = await req.db.GetRun(runName as string);
       if (!run) {
         res.status(503).send();
         return;
       }
-      const path = `${samplePaths}${run.RunName}.xlsx`;
+      const path = `${samplePaths}${run.RunName}.csv`;
       await (sample as UploadedFile).mv(path);
       await req.db.updateRun(run._id, {
         SampleSheetPath: path
       });
+      if (run.RunStatus === "EndRun") {
+        BCL2FASTQ(run._id, dbhandler);
+      }
       return res.status(200).send();
     });
 
