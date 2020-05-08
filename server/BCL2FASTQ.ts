@@ -23,6 +23,10 @@ export default async (id: string, db: DbHandler) => {
     BCL2FASTQStartedOn: new Date().toISOString()
   });
   let child = child_process.exec(processString);
+
+  child.stdout.on("data", data => {
+    console.log(data);
+  });
   child.on("exit", async code => {
     if (code === 0) {
       await db.updateRun(id, {
