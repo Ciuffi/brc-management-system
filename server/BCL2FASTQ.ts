@@ -17,7 +17,6 @@ export default async (id: string, db: DbHandler) => {
     );
   }
   const processString = createProcessString(Run);
-  console.log(processString);
   await db.updateRun(id, {
     RunStatus: "BeginBCL2FASTQ",
     BCL2FASTQStartedOn: new Date().toISOString()
@@ -27,6 +26,7 @@ export default async (id: string, db: DbHandler) => {
   child.stdout.on("data", data => {
     console.log(data);
   });
+  child.stderr.on("data", console.log);
   child.on("exit", async code => {
     if (code === 0) {
       await db.updateRun(id, {
