@@ -63,6 +63,7 @@ export default async (dbHandler: DbHandler): Promise<void> => {
     const handleBCLFolder = async (path: string) => {
       const arr = path.split("/");
       const folderName = arr.pop();
+      if (!folderName.includes("_")) return;
       const runName = `${folderName
         .split("_")
         .slice(0, -1)
@@ -87,8 +88,6 @@ export default async (dbHandler: DbHandler): Promise<void> => {
         handleBCLFolder(path);
       } else if (path.endsWith(RTAComplete)) {
         handleRTAComplete(path);
-      } else {
-        yellowLog("> File found by watcher but not processed.");
       }
     };
 
