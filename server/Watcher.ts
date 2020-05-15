@@ -43,7 +43,9 @@ export default async (dbHandler: DbHandler): Promise<void> => {
 
     const handleRTAComplete = async (path: string) => {
       const folderPath = path.substr(0, path.lastIndexOf("/"));
+      console.log(folderPath);
       const lastRun = await dbHandler.GetRunByBCLPath(folderPath);
+      if (!lastRun) return;
       if (lastRun.RunStatus !== "BeginRun") {
         redLog(
           `> New RTAComplete received but last run: ${lastRun.RunName} has already been processed.\nThis RTAComplete will be ignored.`
