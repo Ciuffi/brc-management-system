@@ -51,7 +51,10 @@ const RunHistory = ({ basePath, runs }: RunHistoryProps) => {
             </button>
           </div>
         </div>
-        <div className="card-content">
+        <div
+          style={{ height: "500px", overflowY: "scroll" }}
+          className="card-content"
+        >
           {!!properRuns.length ? (
             properRuns.map(run => (
               <RunCard

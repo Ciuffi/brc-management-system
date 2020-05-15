@@ -15,7 +15,11 @@ const RunCard = ({
     BCLFolderPath,
     _id,
     SampleSheetPath,
-    RunStatus
+    RunStatus,
+    RunStartedOn,
+    BCL2FASTQFinishedOn,
+    BCL2FASTQStartedOn,
+    AnalysisFinishedOn
   },
   reload,
   basePath
@@ -46,6 +50,7 @@ const RunCard = ({
   };
   return (
     <div
+      style={{ marginBottom: "20px" }}
       className={`message ${RunFinished ? "is-success" : ""} ${
         !RunFinished && !Error ? "is-warning" : ""
       } ${Error ? "is-danger" : ""}`}
@@ -66,10 +71,73 @@ const RunCard = ({
         className="message-body"
       >
         <p>
-          <b>Run started on:</b> {new Date(CreatedTime).toLocaleString("en-US")}
+          <b>Run Inputted on:</b>{" "}
+          <span style={{ color: "green" }}>
+            {new Date(CreatedTime).toLocaleString("en-US")}{" "}
+          </span>
         </p>
-
-        <div style={{ alignItems: "center" }} className="file">
+        <p>
+          <b>Run Started at: </b>
+          {RunStartedOn ? (
+            <span style={{ color: "green" }}>
+              {new Date(RunStartedOn).toLocaleString("en-US")}
+            </span>
+          ) : (
+            "unfinished"
+          )}
+        </p>
+        <p>
+          <b>Run finished at: </b>
+          {RunFinishedTime ? (
+            <span style={{ color: "green" }}>
+              {new Date(RunFinishedTime).toLocaleString("en-US")}
+            </span>
+          ) : (
+            "unfinished"
+          )}
+        </p>
+        <p>
+          <b>BCL2FASTQ started at: </b>
+          {BCL2FASTQStartedOn ? (
+            <span style={{ color: "green" }}>
+              {new Date(BCL2FASTQStartedOn).toLocaleString("en-US")}
+            </span>
+          ) : (
+            "unfinished"
+          )}
+        </p>
+        <p>
+          <b>BCL2FASTQ finished at: </b>
+          {BCL2FASTQFinishedOn ? (
+            <span style={{ color: "green" }}>
+              {new Date(BCL2FASTQFinishedOn).toLocaleString("en-US")}
+            </span>
+          ) : (
+            "unfinished"
+          )}
+        </p>
+        <p>
+          <b>Analysis started at: </b>
+          {AnalysisStartTime ? (
+            <span style={{ color: "green" }}>
+              new Date(AnalysisStartTime).toLocaleString("en-US"){" "}
+            </span>
+          ) : (
+            "unfinished"
+          )}
+        </p>
+        <p>
+          <b>Analysis finished at: </b>
+          {AnalysisFinishedOn ? (
+            <span style={{ color: "green" }}>
+              new Date(AnalysisFinishedOn).toLocaleString("en-US"){" "}
+            </span>
+          ) : (
+            "unfinished"
+          )}
+        </p>
+        <hr style={{ margin: 0, border: "1px solid red" }} />
+        <div style={{ margin: 0, alignItems: "center" }} className="file">
           <p>
             <b>sample sheet:</b> {SampleSheetPath ? "✔" : "❌"} Sample sheet
             provided
@@ -82,30 +150,18 @@ const RunCard = ({
               name="resume"
             />
             <span className="file-cta">
-              <span className="file-label">
+              <span style={{ fontSize: "1rem" }} className="file-label">
                 {SampleSheetPath ? "Reupload" : "Upload"}{" "}
               </span>
             </span>
           </label>
         </div>
-        <p>
-          <b>Run finished at: </b>{" "}
-          {RunFinishedTime
-            ? new Date(RunFinishedTime).toLocaleString("en-US")
-            : "unfinished"}
-        </p>
         {BCLFolderPath ? (
           <div>
             <b>BCL folder path:</b> {BCLFolderPath}
           </div>
         ) : null}
-        <p>
-          <b>Pipeline started on: </b>{" "}
-          {AnalysisStartTime
-            ? new Date(AnalysisStartTime).toLocaleString("en-US")
-            : "unfinished"}
-        </p>
-        <div style={{ textAlign: "center" }}>
+        <div style={{ marginTop: "10px", textAlign: "center" }}>
           <button onClick={() => deleteRun(_id)} className="button is-danger">
             Delete Run
           </button>
