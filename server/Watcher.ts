@@ -1,12 +1,12 @@
 import chokidar from "chokidar";
-import { Stats } from "fs";
+import { Stats, watch } from "fs";
 import DbHandler from "./DBHandler";
 import { greenLog, redLog, yellowLog, redError } from "./Logging";
 import { existsSync } from "fs";
 import BCL2FASTQ from "./BCL2FASTQ";
 const Prod = process.env.NODE_ENV === "production";
 const folderPath = Prod ? "/brcwork/sequence/bcl/" : "./test/";
-const RTAComplete = "RTAComplete";
+const RTAComplete = "RTAComplete.txt";
 
 const folderExists = existsSync(folderPath);
 if (!folderExists) {
@@ -20,9 +20,6 @@ if (!folderExists) {
 export default async (dbHandler: DbHandler): Promise<void> => {
   await new Promise((resolve, reject) => {
     console.log("> Starting watcher...");
-
-    let activeRuns = [];
-    let waitingRuns = [];
     const watcher = chokidar.watch(`${folderPath}*`, {
       persistent: true,
       ignoreInitial: true,
@@ -44,12 +41,8 @@ export default async (dbHandler: DbHandler): Promise<void> => {
     });
 
     const handleRTAComplete = async (path: string) => {
-      if (!activeRuns.length) {
-        redLog(`
-        > new RTAComplete received but no active rounds found.`);
-      }
-      const currentRun = activeRuns.shift();
-      const lastRun = await dbHandler.GetRunByID(currentRun);
+      const folderPath = path.substr(0, path.lastIndexOf("/"));
+      const lastRun = await dbHandler.GetRunByBCLPath(folderPath);
       if (lastRun.RunStatus !== "BeginRun") {
         redLog(
           `> New RTAComplete received but last run: ${lastRun.RunName} has already been processed.\nThis RTAComplete will be ignored.`
@@ -62,16 +55,9 @@ export default async (dbHandler: DbHandler): Promise<void> => {
         RunFinishedOn: new Date().toISOString()
       });
       greenLog(`> RTAComplete found`);
-      if (activeRuns.length === 0) {
-        yellowLog(`> Starting BCL2FASTQ...`);
-        BCL2FASTQ(id, dbHandler);
-        waitingRuns.forEach(waitingID => BCL2FASTQ(waitingID, dbHandler));
-      } else {
-        waitingRuns.push(id);
-        yellowLog(
-          `> Waiting on all runs to finish before starting BCL2FASTQ...`
-        );
-      }
+      greenLog(`> Running BCL2FASTQ...`);
+      watcher.unwatch(`${folderPath}/*`);
+      BCL2FASTQ(id, dbHandler);
     };
 
     const handleBCLFolder = async (path: string) => {
@@ -92,7 +78,7 @@ export default async (dbHandler: DbHandler): Promise<void> => {
         RunName: folderName,
         RunStatus: "BeginRun"
       });
-      activeRuns.push(id);
+      watcher.add(`${path}/*`);
       greenLog("> BCL Folder created and associated.");
       yellowLog("> Waiting for RTAComplete..");
     };

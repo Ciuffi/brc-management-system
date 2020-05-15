@@ -106,6 +106,12 @@ class DbHandler {
   GetRun = async (name: string): Promise<Run> => {
     return this.collection.findOne({ RunName: name });
   };
+  GetRunByBCLPath = async (path: string): Promise<Run> => {
+    let query: Run = {
+      BCLFolderPath: path
+    };
+    return this.collection.findOne(query);
+  };
 
   GetRunByID = async (_id: string): Promise<Run> => {
     return this.collection.findOne({ _id });
