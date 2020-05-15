@@ -130,6 +130,10 @@ dbhandler
 
     server.listen(port, err => {
       if (err) throw err;
-      console.log(`> Listening on http://localhost:${port}`);
+      greenLog(
+        dev
+          ? `   > Listening on http://localhost:${port}`
+          : `   > Website live at https://brclogin1.brc.ubc.ca/bms`
+      );
     });
   });
