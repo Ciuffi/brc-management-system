@@ -46,11 +46,11 @@ export default async (id: string, db: DbHandler) => {
       await db.updateRun(id, {
         Error: true
       });
-      if (!fs.existsSync("./logs")) fs.mkdirSync(`./logs`);
-      fs.writeFileSync(`./logs/${Run.RunName}`, output);
-      fs.writeFileSync(`./logs/${Run.RunName}-error`, error);
       redLog(`> BCL2FASTQ failed for ${Run.RunName}`);
-      yellowLog(`> Log created at logs/${Run.RunName}`);
     }
+    if (!fs.existsSync("./logs")) fs.mkdirSync(`./logs`);
+    fs.writeFileSync(`./logs/${Run.RunName}`, output);
+    fs.writeFileSync(`./logs/${Run.RunName}-error`, error);
+    yellowLog(`> Log created at logs/${Run.RunName}`);
   });
 };
