@@ -15,6 +15,7 @@ const hasError = (log: string) => {
 };
 
 export default async (id: string, db: DbHandler) => {
+  greenLog(`> Running BCL2FASTQ...`);
   const Run = await db.GetRunByID(id);
   if (!Run.SampleSheetPath) {
     yellowLog(
