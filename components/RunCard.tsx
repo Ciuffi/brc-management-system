@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Run from "../server/models/Run";
+import Run, { StatusToText } from "../server/models/Run";
 interface RunCardProps {
   run: Run;
   reload: () => any;
   basePath: string;
 }
+
 const RunCard = ({
   run: {
     AnalysisStartedOn: AnalysisStartTime,
@@ -52,7 +53,7 @@ const RunCard = ({
     <div
       style={{ marginBottom: "20px" }}
       className={`message ${RunFinished ? "is-success" : ""} ${
-        !RunFinished && !Error ? "is-warning" : ""
+        RunStatus !== "EndAnalysis" && !Error ? "is-warning" : ""
       } ${Error ? "is-danger" : ""}`}
     >
       <div onClick={() => SetCardShown(!CardShown)} className="message-header">
@@ -60,11 +61,7 @@ const RunCard = ({
         <span style={{ textAlign: "left", color: "blue", fontSize: "12px" }}>
           {CardShown ? "Click to Hide Details" : "Click to Show Details"}
         </span>
-        {!Error ? (
-          <p>processed: {RunFinished ? "yes" : "no"}</p>
-        ) : (
-          <p> Error!</p>
-        )}
+        {!Error ? <p>Status: {StatusToText(RunStatus)}</p> : <p> Error!</p>}
       </div>
       <div
         style={{ display: CardShown ? "inherit" : "none", textAlign: "left" }}

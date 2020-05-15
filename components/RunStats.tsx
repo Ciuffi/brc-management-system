@@ -1,4 +1,4 @@
-import Run from "../server/models/Run";
+import Run, { StatusToText } from "../server/models/Run";
 
 const RunStats = ({
   RunName,
@@ -20,8 +20,15 @@ const RunStats = ({
         </div>
       </div>
       <div style={{ paddingTop: "15px" }} className="card-content">
-        <p style={{ textAlign: "center", fontSize: "20px", marginTop: "0" }}>
+        <p style={{ textAlign: "center", fontSize: "18px", marginTop: "0" }}>
           Current run: <b>{RunName ?? "No current runs"}</b>
+        </p>
+        <p style={{ textAlign: "center", fontSize: "18px", marginTop: "0" }}>
+          {Error ? (
+            <span style={{ color: "red" }}> ⚠Something went wrong⚠</span>
+          ) : RunStatus ? (
+            `Run Status: ${StatusToText(RunStatus)}`
+          ) : null}
         </p>
         <div style={{ marginLeft: "5px", marginTop: "5px" }}>
           <p>
@@ -57,11 +64,10 @@ const RunStats = ({
             <p
               style={{
                 textAlign: "center",
-                color: "red"
+                color: "red",
+                fontSize: "20px"
               }}
-            >
-              ⚠Something went wrong⚠
-            </p>
+            ></p>
           )}
         </div>
       </div>

@@ -29,3 +29,5 @@ toWatch/
 dist/
 
 test/
+
+logs/
