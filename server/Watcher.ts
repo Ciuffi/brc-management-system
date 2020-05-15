@@ -56,7 +56,6 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       });
       greenLog(`> RTAComplete found`);
       greenLog(`> Running BCL2FASTQ...`);
-      watcher.unwatch(`${folderPath}/*`);
       BCL2FASTQ(id, dbHandler);
     };
 
@@ -78,7 +77,6 @@ export default async (dbHandler: DbHandler): Promise<void> => {
         RunName: folderName,
         RunStatus: "BeginRun"
       });
-      watcher.add(`${path}/*`);
       greenLog("> BCL Folder created and associated.");
       yellowLog("> Waiting for RTAComplete..");
     };
