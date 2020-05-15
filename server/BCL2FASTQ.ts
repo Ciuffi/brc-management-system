@@ -35,7 +35,7 @@ export default async (id: string, db: DbHandler) => {
   child.stdout.on("data", data => (output += data));
   child.stderr.on("data", data => (error += data));
   child.on("exit", async code => {
-    if (code === 0 && !hasError(output)) {
+    if (code === 0 && !hasError(output) && !hasError(error)) {
       await db.updateRun(id, {
         RunStatus: "EndBCL2FASTQ",
         BCL2FASTQFinishedOn: new Date().toISOString(),
