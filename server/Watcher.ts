@@ -20,7 +20,7 @@ if (!folderExists) {
 export default async (dbHandler: DbHandler): Promise<void> => {
   await new Promise((resolve, reject) => {
     console.log("> Starting watcher...");
-    const watcher = chokidar.watch(`${folderPath}*`, {
+    const watcher = chokidar.watch(`${folderPath}`, {
       persistent: true,
       ignoreInitial: true,
       ignored: ["*/.DS_Store"],
