@@ -11,7 +11,7 @@ interface RunInputProps {
 const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
   const [machineName, setmachineName] = useState(Machines[0]);
   const [selectedDate, setSelecteDate] = useState(new Date());
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File>(null);
   const [error, setError] = useState(false);
   const [runIndex, setRunIndex] = useState(latestBCLID);
   const createRunName = (date: Date, machine: string, index: number) => {
@@ -173,19 +173,38 @@ const RunInput = ({ basePath, latestBCLID }: RunInputProps) => {
                   <label>Sample Sheet upload</label>
                 </td>
                 <td>
-                  <div style={{ alignItems: "center" }} className="file">
-                    <label style={{ marginLeft: "2%" }} className="file-label">
-                      <input
-                        onChange={e => setFile(e.target.files[0])}
-                        className="file-input"
-                        type="file"
-                        name="resume"
-                      />
-                      <span className="file-cta">
-                        <span className="file-label">Upload</span>
-                      </span>
-                    </label>
-                  </div>
+                  {!file ? (
+                    <div
+                      style={{ textAlign: "center", alignItems: "center" }}
+                      className="is-small file"
+                    >
+                      <label style={{ margin: "auto" }} className="file-label">
+                        <input
+                          onChange={e => setFile(e.target.files[0])}
+                          className="file-input"
+                          type="file"
+                          name="resume"
+                        />
+                        <span className="file-cta">
+                          <span className="file-label">Upload</span>
+                        </span>
+                      </label>
+                    </div>
+                  ) : (
+                    <div>
+                      <span style={{ fontSize: "12px" }}>✔ Uploaded</span>
+                      <button
+                        className="button is-small is-danger"
+                        style={{ fontSize: "12px", marginLeft: "5px" }}
+                        onClick={e => {
+                          e.preventDefault();
+                          setFile(null);
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
                 </td>
               </tr>
             </tbody>
