@@ -24,7 +24,8 @@ export default async (dbHandler: DbHandler): Promise<void> => {
       persistent: true,
       ignoreInitial: true,
       ignored: ["*/.DS_Store"],
-      depth: 1
+      depth: 1,
+      ignorePermissionErrors: true
     });
 
     watcher.on("ready", async () => {
